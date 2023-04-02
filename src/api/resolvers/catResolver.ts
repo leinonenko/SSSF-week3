@@ -1,4 +1,6 @@
 import {Cat} from '../../interfaces/Cat';
+import {locationInput} from '../../interfaces/Location';
+import rectangleBounds from '../../utils/rectangleBounds';
 import catModel from '../models/catModel';
 
 // TODO: Add resolvers for cat
@@ -19,6 +21,16 @@ export default {
       return await catModel.find({owner: args.owner});
     },
     // 1.4. catsByArea
+    catsByArea: async (_parent: undefined, args: locationInput) => {
+      const bounds = rectangleBounds(args.topRight, args.bottomLeft);
+      return await catModel.find({
+        location: {
+          $geoWithin: {
+            $geometry: bounds,
+          },
+        },
+      });
+    },
   },
   // 2. Mutations
   Mutation: {
@@ -28,8 +40,13 @@ export default {
       const newCat = new catModel(args);
       return await newCat.save();
     },
+    // 2.2. updateCat
+    updateCat: async (_parent: undefined, args: Cat) => {
+      return await catModel.findByIdAndUpdate(args.id, args, {new: true});
+    },
+    // 2.3. deleteCat
+    deleteCat: async (_parent: undefined, args: Cat) => {
+      return await catModel.findByIdAndDelete(args.id);
+    },
   },
 };
-
-// 2.2. updateCat
-// 2.3. deleteCat

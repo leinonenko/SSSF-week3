@@ -1,3 +1,4 @@
+import {Cat} from '../../interfaces/Cat';
 import {User} from '../../interfaces/User';
 import userModel from '../models/userModel';
 // TODO: Add resolvers for user
@@ -5,7 +6,7 @@ import userModel from '../models/userModel';
 // 1. Queries
 export default {
   Cat: {
-    owner: async (parent: any) => {
+    owner: async (parent: Cat) => {
       return await userModel.findById(parent.owner);
     },
   },
@@ -26,8 +27,13 @@ export default {
       const newUser = new userModel(args);
       return await newUser.save();
     },
+    // 2.2. updateUser
+    updateUser: async (_parent: undefined, args: User) => {
+      return await userModel.findByIdAndUpdate(args.id, args, {new: true});
+    },
+    // 2.3. deleteUser
+    deleteUser: async (_parent: undefined, args: User) => {
+      return await userModel.findByIdAndDelete(args.id);
+    },
   },
 };
-
-// 2.2. updateUser
-// 2.3. deleteUser

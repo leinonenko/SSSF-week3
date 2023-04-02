@@ -5,10 +5,10 @@ type Cat {
   id: ID!
   cat_name: String!
   weight: Float!
-  birthdate: DateTime!
-  owner: User!
+  birthdate: DateTime
+  owner: User
   location: Location
-  filename: String!
+  filename: String
 }
 # Location: type, coordinates
 type Location {
@@ -37,7 +37,7 @@ type Query {
   catById(id: ID!): Cat!
   cats: [Cat!]!
   catsByOwner(ownerId: ID!): [Cat!]!
-  catsByArea(topRight: Coordinates!, bottomLeft: Coordinates!): [Cat!]!
+  catsByArea(topRight: Coordinates!, bottomLeft: Coordinates!): [Cat]
 }
 
 # Mutation: createCat, updateCat, deleteCat
@@ -47,7 +47,17 @@ type Mutation {
     weight: Float!
     birthdate: DateTime!
     owner: ID!
-    location: LocationInput
+    location: LocationInput!
     filename: String!
-  ): Cat!
+  ): Cat
+  updateCat(
+    id: ID!
+    cat_name: String
+    weight: Float
+    birthdate: DateTime
+    owner: ID
+    location: LocationInput
+    filename: String
+  ): Cat
+  deleteCat(id: ID!): Cat
 }
