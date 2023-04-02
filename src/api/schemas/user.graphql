@@ -6,9 +6,11 @@ type User {
   email: String!
 }
 # Query: users, userById
+type Query {
+  users: [User]
+  userById(id: ID!): User
+}
 # Mutation: createUser, updateUser, deleteUser
 type Mutation {
-  addUser(user_name: String!, email: String!): User
-  updateUser(id: ID!, user_name: String!, email: String!): User
-  deleteUser(id: ID!): User
+  createUser(user_name: String!, email: String!): User
 }

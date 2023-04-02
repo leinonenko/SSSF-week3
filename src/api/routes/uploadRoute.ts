@@ -1,7 +1,7 @@
 import express, {Request} from 'express';
 import multer, {FileFilterCallback} from 'multer';
 import {getCoordinates, makeThumbnail} from '../../middlewares';
-import {catPost} from '../controllers/uploadController';
+import { catPost } from '../controllers/uploadController';
 
 const fileFilter = (
   request: Request,
